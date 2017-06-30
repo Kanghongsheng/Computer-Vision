@@ -1,0 +1,7 @@
+project(objectDetection)
+cmake_minimum_required(VERSION 2.8)
+set(CMAKE_CXX_FLAGS "-std=c++11")
+find_package(OpenCV 3.2 REQUIRED)
+include_directories(${OpenCV_INCLUDE_DIRS})
+add_executable(objectDetect objectDetect.cpp)
+target_link_libraries(objectDetect ${OpenCV_LIBS})
