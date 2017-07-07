@@ -1,0 +1,7 @@
+cmake_minimum_required(VERSION 2.8)
+set(CXX_FLAGS "-std=c++11 -03")
+project(FeatureTest)
+find_package(OpenCV 3.2 REQUIRED)
+include(${OpenCV_INCLUDE_DIRS})
+add_executable(FeatureTest Feature_Test.cpp)
+target_link_libraries(FeatureTest ${OpenCV_LIBS})
