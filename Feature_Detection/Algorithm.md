@@ -15,12 +15,13 @@ A feature is detected at *p* if the intensities of at least *N* contiguous pixel
 ## **SURF**
 ------------
 **Detector**
-* SURF uses square-shaped filters as an approximation of Gaussian smoothing. SURF uses a blob detector based on the **Hessian matrix** to find points of interest. 
+* SURF uses square-shaped filters as an approximation of Gaussian smoothing. SURF uses a _blob detector_ based on the **Hessian matrix** to find points of interest. 
 * The _determinant_ of the Hessian matrix is used as a measure of local change around the point and points are chosen where the determinant is maximal.
 * SURF also uses the determinant of the Hessian for selecting the scale.
 * The box filter of size 9x9 is an approximation of a Gaussian with \sigma=1.2 and represents the lowest level(highest spatial resolution) for blob-response maps.
+
 **Scale-space representation an location of points of interest**
-* The scale space is divided into a number of octaves, where an octave refers to a series of reponse maps of covering a doubling of scale. The following layers are obtained by filtering the image with gradually bigger masks, taking into account the discrete nature of integral images and the specific filter structure.
+* The scale space is divided into a number of octaves, where an octave refers to a series of reponse maps of covering a doubling of scale. The following layers are obtained by filtering the image with **gradually bigger masks**, taking into account the discrete nature of integral images and the specific filter structure.
 
 **Descriptor**
  * A short descriptor may be more robust against appearance variations, but may not offer sufficient discrimination and thus give too many false positives.
@@ -70,20 +71,21 @@ We employ a scale pryamid of the image,and produce FAST features(filtered by Har
 * detector and descriptor
 * This approach transforms an image into a large collection of local feature vectors,each of which is invariant to image translation, scaling, and rotation, and partially invariant to illumination changes and affine or 3D projection.
 
-
-###Ways
+### Tips
 * The scale-invariant features are efficiently identified by using a staged filtering approach.
 * Partial invariance to local variations, such as affine or 3D projections, by blurring image gradient locations.
-###algorithm
+
+### Detector
 1. Use the Gaussian kernel and its derivations to build an image pyramid.
 2. Select key locations at maxima and minima of a difference of Gaussian function applied in scale space.
-3. Compute the image gradient magnitude and orientation at each pxel at each level
-4. Each key location is assigned a canonical orientation which is determined by the peak in a histogram of local image gradient orientations.
 
-###Key stages
+### Descriptor
+1. Compute the image gradient magnitude and orientation at each pxel at each level
+2. Each key location is assigned a canonical orientation which is determined by the peak in a histogram of local image gradient orientations.
+
+### Key stages
 1. Scale-invariant feature detection
 2. Feature matching and indexing
 3. Cluster identification by Hough transform voting
 4. Model verification by linear least squares
 5. Outlier detection
-
