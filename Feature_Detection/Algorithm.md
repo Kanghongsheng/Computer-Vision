@@ -2,6 +2,11 @@
 -----------------------
 ## FAST
 --------
+**Introduction**
+* __FAST__ which means _"Features from accelerated segment test"_, is first corner detect algorithm based on the **AST** to find a set of key points in the image. 
+* The main idea of the algorithm is to evaluating the pixels in a Bresenham circle of radius _r_ around the candidate point.
+* If _n_ contiguous pixels are all brighter than the nucleus by at least _t_ or all darker than the nucleus by _t_, then the pixel under the nucleus is considered to be a feature.
+
 **Algorithm**
 
 * A feature is detected at *p* if the intensities of at least *N* contiguous pixels are all above the intensity of candidate pixel *p*  plus a threshold value *t* or all blow the intensity of *p-t*. than *p* is classified as corner.
