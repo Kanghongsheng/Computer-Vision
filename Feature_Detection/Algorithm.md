@@ -19,7 +19,8 @@ If N is 12, you can follow these steps to **accelerate** the algorithm:
 **Reference**
 
 > _Features from accelerated segment test_ in wiki
-> _Real-time Video Annotations for Augmented Reality_ Edward Rosten 2005
+
+> "_Real-time Video Annotations for Augmented Reality_" Edward Rosten 2005
 
 ## **SURF**
 ------------
@@ -55,19 +56,14 @@ where _Lxx_ is the convolution of the Gaussian second order derivative with the 
 
 **Reference**
 > "Speeded up robust features" in wiki
-> "SURF: Speed Up Robust Features" Herbert Bay in ETH Zurich
+
+> "SURF: Speed Up Robust Features" by Herbert Bay in ETH Zurich
 
 ## **ORB**
 ---------
-**FAST** keypoint detector and **BRIEF** descriptor
-
-**Algorithm**
-
-* a _Harris corner measure_ to order the **FAST** keypoints
-For a target number _N_ of keypoints, we first set the threshold low enough to get more than _N_ keypoints, then order them according to the Harris measure, and pick the top _N_ points
-* FAST doesnt' produce multi-scale features.
-We employ a scale pryamid of the image,and produce FAST features(filtered by Harris) at each level in the pyramid.
-* High variance makes a feature more discriminative, since it responds differentially to inputs.
+**Introduction**
+Oriented FAST and rotated BRIEF(ORB) is an algorithm, which use **FAST** to detect points of interest and describe it via **BRIEF** algorithm. To get a target number of _N_ points by this algorithm, we first set the threshold low enough to get more than _N_ keypoints, then order them according to the **Harris corner measure** and pick the top _N_ points.
+Besides, we employ a **scale pryamid of the image** to produce FAST features(filtered by Harris) at each level in the pyramid to produce multi-scale features.
 
 **Detector**(_oFAST:FAST Keypoint Orientation_)
 
