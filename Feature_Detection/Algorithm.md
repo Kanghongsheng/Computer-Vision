@@ -3,25 +3,34 @@
 ## FAST
 --------
 **Introduction**
-* __FAST__ which means _"Features from accelerated segment test"_, is first corner detect algorithm based on the **AST** to find a set of key points in the image. 
-* The main idea of the algorithm is to evaluating the pixels in a Bresenham circle of radius _r_ around the candidate point.
-* If _n_ contiguous pixels are all brighter than the nucleus by at least _t_ or all darker than the nucleus by _t_, then the pixel under the nucleus is considered to be a feature.
+
+* __FAST__ which means _"Features from accelerated segment test"_, is the first corner detect algorithm based on the **AST** to find a set of key points in the image. 
 
 **Algorithm**
 
-* A feature is detected at *p* if the intensities of at least *N* contiguous pixels are all above the intensity of candidate pixel *p*  plus a threshold value *t* or all blow the intensity of *p-t*. than *p* is classified as corner.
-
+* The main idea of the algorithm is to evaluating the pixels in a Bresenham circle of radius _r_ around the candidate point.
+* If _n_ contiguous pixels are all brighter than the nucleus by at least _t_ or all darker than the nucleus by _t_, then the pixel under the nucleus is considered to be a feature.
 * Without the improvement of *machine learning*, N is usually chosen as 12. In OpenCV, other type of FAST are available.
 
-**Steps of the algorithm**
-
-If N is 12, then the algorithm is as follows:
+If N is 12, you can follow these steps to **accelerate** the algorithm:
 1. Examining pixels 1 and 9,if both are within*[Ip-t,Ip+t]* ,then candidate is not a corner
 2. Otherwise pixels 5 and 13 are examined. if there exists 3 of them that are either brighter or darker, then rest pixels are then examined for final conclusion
 
+**Reference**
+
+> _Features from accelerated segment test_ in wiki
+> _Real-time Video Annotations for Augmented Reality_ Edward Rosten 2005
+
 ## **SURF**
 ------------
-**Detector**
+**Introduction**
+
+_SURF_ which means "_Speeded up Robust Features_", is a **scale- and rotation-invariant interest point detector and descriptor**.
+
+**'_Fast-Hessian_' Detector**
+* The detector is based on the **Hessian matrix**, a very basic Laplacian-based detector **DoG** is used as approximation. 
+* **Integral images** is to reduce the computation time.
+
 
 * SURF uses square-shaped filters as an approximation of Gaussian smoothing. SURF uses a _blob detector_ based on the **Hessian matrix** to find points of interest. 
 * The _determinant_ of the Hessian matrix is used as a measure of local change around the point and points are chosen where the determinant is maximal.
@@ -32,7 +41,10 @@ If N is 12, then the algorithm is as follows:
 
 * The scale space is divided into a number of octaves, where an octave refers to a series of reponse maps of covering a doubling of scale. The following layers are obtained by filtering the image with **gradually bigger masks**, taking into account the discrete nature of integral images and the specific filter structure.
 
-**Descriptor**
+**Distribution-based descriptor**
+* The descriptor describes a **distribution of Harr-wavelet responses** within the interest point neighborhood.
+* **Integral images** reducing the time for feature computation and matching, and increasing simultaneously the robustness.
+
 
 * The  first step consists of fixing a reproducible orientation based on information from a **circular region around the interest point**. 
  * Then we construct a **square region aligned to the selected orientation**, and extract the SURF descriptor from it.
