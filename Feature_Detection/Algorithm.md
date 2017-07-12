@@ -28,19 +28,15 @@ If N is 12, you can follow these steps to **accelerate** the algorithm:
 _SURF_ which means "_Speeded up Robust Features_", is a **scale- and rotation-invariant interest point detector and descriptor**.
 
 **'_Fast-Hessian_' Detector**
-* The detector is based on the **Hessian matrix**, the **Hessian matrix** in x at scale \sigma is defined as follows:
-
-
-**DoG** is a good approximation to  
-> The _determinant_ of the Hessian matrix is used as a measure of local change around the point and points are chosen where the determinant is maximal.
 * **Integral images** is used to reduce the computation time.
+* The detector is based on the **Hessian matrix**, the **Hessian matrix** in x at scale \sigma is defined as follows:
+![Hessian Matrix](https://github.com/Kanghongsheng/Computer-Vision/raw/modified_version/Feature_Detection/Pictures/Hessian.jpg)
 
-
-
-
-**Scale-space representation an location of points of interest**
-
-* The scale space is divided into a number of octaves, where an octave refers to a series of reponse maps of covering a doubling of scale. The following layers are obtained by filtering the image with **gradually bigger masks**, taking into account the discrete nature of integral images and the specific filter structure.
+where _Lxx_ is the convolution of the Gaussian second order derivative with the image _I_ in point _x_. 
+* For Gaussian filters are not-ideal in any case,we use **box filters** to approximate Gaussian filter.
+* The scale space is analysed by up-scaling the filter size rather than iteratively reducing the image size, due to the use of box filters and integral images.
+* A **non-maximum suppression** in a 3*3*3 neighbourhood is applied to lacalise interest points in the image and over scales. 
+* The _determinant_ of the Hessian matrix is used as a measure of local change around the point and points are chosen where the determinant is maximal.
 
 **Distribution-based descriptor**
 * The descriptor describes a **distribution of Harr-wavelet responses** within the interest point neighborhood.
@@ -50,12 +46,16 @@ _SURF_ which means "_Speeded up Robust Features_", is a **scale- and rotation-in
 * The  first step consists of fixing a reproducible orientation based on information from a **circular region around the interest point**. 
  * Then we construct a **square region aligned to the selected orientation**, and extract the SURF descriptor from it.
 
-**Orientation assignmen**
+**Descriptor**
+* The **Haar wavelet responses** in both x- and y-directions within a circular neighbourhood of radius *6s* around the point of interest are computed, where _s_ is the scale at which the point of interest was detected.
+* The **responses are weighted** by a Gaussian function centered at the point of interest, then represented as **vectors** in a two-dimensional space, with the horizontal response in the abscissa and the vertical response in the ordinate.
+* The **dominant orientation** is estimated by calculating the sum of all responses within a sliding orientation window of size π/3. The horizontal and vertical responses within the window are summed.
+* The size of the sliding window is a parameter that has to be chosen carefully to achieve a desired balance between **robustness and angular resolution**.
+* The longest such vector overall defines **the orientation of the point of interest**. 
 
-* The Haar wavelet responses in both x- and y-directions within a circular neighbourhood of radius *6s* around the point of interest are computed, where _s_ is the scale at which the point of interest was detected.
-* The obtained responses are weighted by a Gaussian function centered at the point of interest, then plotted as points in a two-dimensional space, with the horizontal response in the abscissa and the vertical response in the ordinate
-* The dominant orientation is estimated by calculating the sum of all responses within a sliding orientation window of size π/3. The horizontal and vertical responses within the window are summed.
-* The two summed responses then yield a local orientation vector. The longest such vector overall defines the orientation of the point of interest. The size of the sliding window is a parameter that has to be chosen carefully to achieve a desired balance between robustness and angular resolution.
+**Reference**
+> "Speeded up robust features" in wiki
+> "SURF: Speed Up Robust Features" Herbert Bay in ETH Zurich
 
 ## **ORB**
 ---------
