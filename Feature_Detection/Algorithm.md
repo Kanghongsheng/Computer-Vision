@@ -24,87 +24,89 @@ If N is 12, you can follow these steps to **accelerate** the algorithm:
 
 ## **SURF**
 ------------
-**Introduction**
+### **Introduction**
 
 _SURF_ which means "_Speeded up Robust Features_", is a **scale- and rotation-invariant interest point detector and descriptor**.
 
-**'_Fast-Hessian_' Detector**
+### **'_Fast-Hessian_' Detector**
 * **Integral images** is used to reduce the computation time.
 * The detector is based on the **Hessian matrix**, the **Hessian matrix** in x at scale \sigma is defined as follows:
+where _Lxx_ is the convolution of the Gaussian second order derivative with the image _I_ in point _x_.
 ![Hessian Matrix](https://github.com/Kanghongsheng/Computer-Vision/raw/modified_version/Feature_Detection/Pictures/Hessian.jpg)
 
-where _Lxx_ is the convolution of the Gaussian second order derivative with the image _I_ in point _x_. 
 * For Gaussian filters are not-ideal in any case,we use **box filters** to approximate Gaussian filter.
 * The scale space is analysed by up-scaling the filter size rather than iteratively reducing the image size, due to the use of box filters and integral images.
 * A **non-maximum suppression** in a 3x3x3 neighbourhood is applied to lacalise interest points in the image and over scales. 
 * The _determinant_ of the Hessian matrix is used as a measure of local change around the point and points are chosen where the determinant is maximal.
 
-**Distribution-based descriptor**
-* The descriptor describes a **distribution of Harr-wavelet responses** within the interest point neighborhood.
-* **Integral images** reducing the time for feature computation and matching, and increasing simultaneously the robustness.
-
-
-* The  first step consists of fixing a reproducible orientation based on information from a **circular region around the interest point**. 
- * Then we construct a **square region aligned to the selected orientation**, and extract the SURF descriptor from it.
-
-**Descriptor**
+### **Descriptor**
 * The **Haar wavelet responses** in both x- and y-directions within a circular neighbourhood of radius *6s* around the point of interest are computed, where _s_ is the scale at which the point of interest was detected.
 * The **responses are weighted** by a Gaussian function centered at the point of interest, then represented as **vectors** in a two-dimensional space, with the horizontal response in the abscissa and the vertical response in the ordinate.
 * The **dominant orientation** is estimated by calculating the sum of all responses within a sliding orientation window of size π/3. The horizontal and vertical responses within the window are summed.
 * The size of the sliding window is a parameter that has to be chosen carefully to achieve a desired balance between **robustness and angular resolution**.
 * The longest such vector overall defines **the orientation of the point of interest**. 
 
-**Reference**
+### **Reference**
 > "Speeded up robust features" in wiki
 
 > "SURF: Speed Up Robust Features" by Herbert Bay in ETH Zurich
 
 ## **ORB**
 ---------
-**Introduction**
+### **Introduction**
 Oriented FAST and rotated BRIEF(ORB) is an algorithm, which use **FAST** to detect points of interest and describe it via **BRIEF** algorithm. To get a target number of _N_ points by this algorithm, we first set the threshold low enough to get more than _N_ keypoints, then order them according to the **Harris corner measure** and pick the top _N_ points.
 Besides, we employ a **scale pryamid of the image** to produce FAST features(filtered by Harris) at each level in the pyramid to produce multi-scale features.
 
-**Detector**(_oFAST:FAST Keypoint Orientation_)
+### **Detector**(_oFAST:FAST Keypoint Orientation_)
 
 * a _Harris corner measure_ to order the **FAST** keypoints
 * Orientation by _Intensity Centroid_
 
-**Descriptor**(_rBRIEF:Rotation-Aware BRIEF_)
+### **Descriptor**(_rBRIEF:Rotation-Aware BRIEF_)
+* **BRIEF** descriptor is robust to lighting, blur, and perspective distortion like SIFT. However,it is **sensitive to in-plane rotation**.
+* Combine the BRIEF descriptor with the patch orientation, we get **steered BRIEF**.
+* Using **PCA** or other dimensionality-reduction method to get new features that have **high variance** and are **uncorrelated** over a large training set, which is called **rBRIEF**
 
-> Steered BRIEF: 
->>in-plane rotation invariant
->>steer BRIEF according to the orientation of keypoints
+### **Reference**
+>"_Oriented FAST and rotated BRIEF_" by wiki
 
-> Variance and Correlation
->>High variance makes a feature more discriminative
->>Uncorrelated means more new information
+> "_ORB:an efficient alternative to SIFT or SURF_" by Ethan Rublee
 
-> learning Good Binary Featuress to get **rBRIEF**
->> **Aim**: To recover from the loss of variance in steered BRIEF,and to reduce correlation among the binary tests.
->>Run each test against all training patches
->>Order the tests by their distance from a mean of 0.5, forming the vector T.
->>Greedy search
+> Tutorial On Binary Descriptors -part 1&2&3 in Gil's CV blog(https://gilscvblog.com/page/2/)
+
 
 **Scalable Matching of Binary Features**
-> We choose Locality Sensitive Hashing as our nearest neighbor search
+> We choose **Locality Sensitive Hashing** as our nearest neighbor search
 
 ## **SIFT**
 ---------
-* detector and descriptor
-* This approach transforms an image into a large collection of local feature vectors,each of which is invariant to image translation, scaling, and rotation, and partially invariant to illumination changes and affine or 3D projection.
-
-### Tips
-* The scale-invariant features are efficiently identified by using a staged filtering approach.
-* Partial invariance to local variations, such as affine or 3D projections, by blurring image gradient locations.
+### **Introduction**
+SIFT which means the _Scale Invariant Feature Transform_ can transforms an image into a large collection of local feature vectors, each of which is invariant to image translation,scaling, and rotation, and partially invariant to illumination changes and affine or 3D projection.
 
 ### Detector
-1. Use the Gaussian kernel and its derivations to build an image pyramid.
-2. Select key locations at maxima and minima of a difference of Gaussian function applied in scale space.
+**Scale space**
+* Under some rather general assumptions on **scale invariance**, the Gaussian kernel and its derivations are the only possible smoothing kernels for scale space analysis.
+* Build an **image pyramid** 
+1. Convolving the Gaussian function with the input image to get image _A_
+2. Repeated a second time to get a new image _B_
+3. The **difference of Gaussian** function is obtained by subtracting image B from A
+4. Resample image _B_ using **bilinear interpolation** with pixel spacing of 1.5 in each direction to generate the next pyramid level
+
+**Key localization**
+* Key locations at maxima and minima of a **difference of Gaussian function** applied in scale space.
+1. A pixel is compared to its 8 neighbours at the same level of the pyramid.
+2. If it is a maxima or minima at this level, then the closest pixel location is calculated at the **next lowest level** of the pyramid
+3. If the pixel remains higher(or lower), then the test is repeated for the **level above**
 
 ### Descriptor
-1. Compute the image gradient magnitude and orientation at each pxel at each level
-2. Each key location is assigned a canonical orientation which is determined by the peak in a histogram of local image gradient orientations.
+1. Compute the image **gradient magnitude and orientation** at each pixel at each level
+2. Orientation is determined by the **peak in a histogram of local image gradient orientations**.
+* The orientation histogram is created using a **Gaussian-weighted window**
+* The histogram has 36 **bins** covering the 360 degree range of rotations.
+3. Local image description
+* To make description robust against small **shifts** in local geometry
+* For each keypoint, we use the pixels that fall in a circle of radius 8 pixels around the key location are inserted into the orientation planes. 
+
 
 |Problem|Technique|Advantage|
 |:--------:|:--------------:|:---------:|
