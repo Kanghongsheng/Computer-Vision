@@ -28,14 +28,15 @@ If N is 12, you can follow these steps to **accelerate** the algorithm:
 _SURF_ which means "_Speeded up Robust Features_", is a **scale- and rotation-invariant interest point detector and descriptor**.
 
 **'_Fast-Hessian_' Detector**
-* The detector is based on the **Hessian matrix**, a very basic Laplacian-based detector **DoG** is used as approximation. 
-* **Integral images** is to reduce the computation time.
+* The detector is based on the **Hessian matrix**, the **Hessian matrix** in x at scale \sigma is defined as follows:
 
 
-* SURF uses square-shaped filters as an approximation of Gaussian smoothing. SURF uses a _blob detector_ based on the **Hessian matrix** to find points of interest. 
-* The _determinant_ of the Hessian matrix is used as a measure of local change around the point and points are chosen where the determinant is maximal.
-* SURF also uses the determinant of the Hessian for selecting the scale.
-* The box filter of size 9x9 is an approximation of a Gaussian with \sigma=1.2 and represents the lowest level(highest spatial resolution) for blob-response maps.
+**DoG** is a good approximation to  
+> The _determinant_ of the Hessian matrix is used as a measure of local change around the point and points are chosen where the determinant is maximal.
+* **Integral images** is used to reduce the computation time.
+
+
+
 
 **Scale-space representation an location of points of interest**
 
