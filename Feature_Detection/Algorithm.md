@@ -35,7 +35,7 @@ _SURF_ which means "_Speeded up Robust Features_", is a **scale- and rotation-in
 where _Lxx_ is the convolution of the Gaussian second order derivative with the image _I_ in point _x_. 
 * For Gaussian filters are not-ideal in any case,we use **box filters** to approximate Gaussian filter.
 * The scale space is analysed by up-scaling the filter size rather than iteratively reducing the image size, due to the use of box filters and integral images.
-* A **non-maximum suppression** in a 3*3*3 neighbourhood is applied to lacalise interest points in the image and over scales. 
+* A **non-maximum suppression** in a 3x3x3 neighbourhood is applied to lacalise interest points in the image and over scales. 
 * The _determinant_ of the Hessian matrix is used as a measure of local change around the point and points are chosen where the determinant is maximal.
 
 **Distribution-based descriptor**
