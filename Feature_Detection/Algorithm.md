@@ -171,6 +171,7 @@ The results is as follows:
 3. use the Hi0 as ground truth for descriptor matches from SIFT,SURF,and ORB
 
 **Results**
+
 The results is as follows:
 
 ![Real_World_data](https://github.com/Kanghongsheng/Computer-Vision/raw/modified_version/Feature_Detection/Pictures/Real_World_data.jpg)
@@ -180,3 +181,42 @@ The results is as follows:
 From the pictures above, we can conclude that:
 1. ORB **outperforms** SIFT and SURF on the outdoor dataset and the indoor set.
 2. Blob-detection keypoints like SIFT tend to be better on graffititype images.
+
+### test_4(Evaluation rBRIEF LSH with kdtrees of SIFT features using FLANN)
+**Dataset**
+* Pascal 2009 dataset
+
+**Target**
+* A correlation between **the speed and the accuracy** of **kd-trees with SIFT**(SURF is equivalent) and **LSH with rBRIEF**
+
+**Results**
+
+![test4.jpg](https://github.com/Kanghongsheng/Computer-Vision/raw/modified_version/Feature_Detection/Pictures/test4.jpg)
+
+we can see that:
+1. A successful match of the test image occurs when **more than 50** descriptors are found in the correct database image.
+2. The LSH is **faster** than kd-trees.
+3. The steered BRIEF is much slower due to its **uneven buckets**.
+
+### test_5(time-cost)
+**Datasets**
+* A set of images at 5 scales
+* The images size 640x480 are from the Pascal dataset 
+
+**Conditions**
+* ORB somputed separately on 5 scales of the image
+* **area-based imterpolation** is used for efficient decimation
+* The code was executed in a **single thread** running on an Intel i7 2.8Ghz processor
+
+**Results**
+* Computing ORB on a set of 2686 images at 5 scales, we can get the time cost is as follows: 
+|ORB:|Pyramid|oFAST|rBRIEF|
+|:-----:|:-----:|:-------:|:-------:|
+|Time(ms)|4.43|8.68|2.12|
+
+* Compared to SIFT and SURF on the same data for the same number of features and the same number of scales,we get:
+|Detector|ORB|SURF|SIFT|
+|:------:|:------:|:------:|:-----:|
+|Time per frame(ms)|15.3|217.3|5228.7|
+
+* ORB is **an order faster** than SURF, and **over two orders faster** than SIFT.
