@@ -2,11 +2,11 @@
 -----------------------
 ## FAST
 --------
-**Introduction**
+### **Introduction**
 
 * __FAST__ which means _"Features from accelerated segment test"_, is the first corner detect algorithm based on the **AST** to find a set of key points in the image. 
 
-**Algorithm**
+### **Algorithm**
 
 * The main idea of the algorithm is to evaluating the pixels in a Bresenham circle of radius _r_ around the candidate point.
 * If _n_ contiguous pixels are all brighter than the nucleus by at least _t_ or all darker than the nucleus by _t_, then the pixel under the nucleus is considered to be a feature.
@@ -16,7 +16,7 @@ If N is 12, you can follow these steps to **accelerate** the algorithm:
 1. Examining pixels 1 and 9,if both are within*[Ip-t,Ip+t]* ,then candidate is not a corner
 2. Otherwise pixels 5 and 13 are examined. if there exists 3 of them that are either brighter or darker, then rest pixels are then examined for final conclusion
 
-**Reference**
+### **Reference**
 
 > _Features from accelerated segment test_ in wiki
 
@@ -76,7 +76,7 @@ Besides, we employ a **scale pryamid of the image** to produce FAST features(fil
 
 
 **Scalable Matching of Binary Features**
-> We choose **Locality Sensitive Hashing** as our nearest neighbor search
+* We choose **Locality Sensitive Hashing** as our nearest neighbor search
 
 ## **SIFT**
 ---------
@@ -107,7 +107,12 @@ SIFT which means the _Scale Invariant Feature Transform_ can transforms an image
 * To make description robust against small **shifts** in local geometry
 * For each keypoint, we use the pixels that fall in a circle of radius 8 pixels around the key location are inserted into the orientation planes. 
 
+### Reference
+> "Scale-invariant feature transform" in wiki
 
+> "Object Recognition from Local Scale-Invariant Features" by David G. Lowe
+
+### table of tech in SIFT
 |Problem|Technique|Advantage|
 |:--------:|:--------------:|:---------:|
 |key localization/scale/rotation|DoG/scale-space pyramid/orientation assignment|accuracy,stability,scale&rotational invariance|
@@ -116,3 +121,35 @@ SIFT which means the _Scale Invariant Feature Transform_ can transforms an image
 |Cluster identification|Hough Transform voting|reliable pose models|
 |Model verification/outlier detection|Linear least squares|better error tolerance with matches|
 |Hypothesis acceptance|Bayesian Probability analysis|reliability|
+
+## Evaluation of SIFT, SURF and ORB
+### datasets
+1. images with synthetic in-plane rotation and added Gaussian noise
+2. a real-world dataset of texured planar images captured from different viewpoints
+
+### test_1 with the dataset_1
+**Conditions**
+* The added Gaussian noise in the dataset is 10
+* Targeting 500 keypoints per image
+* Brute-force matching to find the best correspondence.
+* The results are given in terms of **percentage of correct matches against the angle of rotation**
+
+**Results**
+The Matching performance of SIFT,SURF,BRIEF with FAST, and ORB(oFAST+rBRIEF) under synthetic rotations with Gaussian noise of 10 is as follows:
+![Matching Performance](https://github.com/Kanghongsheng/Computer-Vision/raw/modified_version/Feature_Detection/Pictures/Matching_performance.jpg)
+
+From the picture above, we can conclude that:
+1. the standard BRIEF operator falls off dramatically after about 10 degrees
+2. SIFT **outperforms** SURF,which shows quantization effects at 45-degree angles due to its Harr-wavelet composition.
+3. ORB has the best performance with over 70% inliers.
+
+### test_2 with dataset_1
+**Conditions**
+* plot the inlier performance vs. noise
+
+**Results**
+The results is as follows:
+![Matching behavior](https://github.com/Kanghongsheng/Computer-Vision/raw/modified_version/Feature_Detection/Pictures/Matching_behavior.jpg)
+
+* SIFT exhibits a steady drop of 10% with each additional noise increment of 5
+* ORB also drops, but at a much lower rate
