@@ -78,6 +78,12 @@ Besides, we employ a **scale pryamid of the image** to produce FAST features(fil
 **Scalable Matching of Binary Features**
 * **Locality Sensitive Hashing** as our nearest neighbor search
 
+### table of tech in ORB
+|Problem|Technique|Advantage|
+|:--------:|:--------------:|:---------:|
+|key localization/scale/rotation|FAST/scale-space pyramid/Intensity Centroid|accuracy,stability,scale&rotational invariance|
+|indexing and matching|nearest neighbor/Locality Sensitive Hashing|Efficiency/speed|
+
 ## **SIFT**
 ---------
 ### **Introduction**
