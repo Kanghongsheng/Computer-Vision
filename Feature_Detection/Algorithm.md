@@ -123,19 +123,19 @@ SIFT which means the _Scale Invariant Feature Transform_ can transforms an image
 |Hypothesis acceptance|Bayesian Probability analysis|reliability|
 
 ## Evaluation of SIFT, SURF and ORB
-### datasets
-1. images with synthetic in-plane rotation and added Gaussian noise
-2. a real-world dataset of texured planar images captured from different viewpoints
 
-### test_1 with the dataset_1
+### test_1(matching test vs. the angle of rotation)
 **Conditions**
+* datasets: images with **synthetic in-plane rotation and added Gaussian noise**
 * The added Gaussian noise in the dataset is 10
 * Targeting 500 keypoints per image
 * Brute-force matching to find the best correspondence.
 * The results are given in terms of **percentage of correct matches against the angle of rotation**
 
 **Results**
+
 The Matching performance of SIFT,SURF,BRIEF with FAST, and ORB(oFAST+rBRIEF) under synthetic rotations with Gaussian noise of 10 is as follows:
+
 ![Matching Performance](https://github.com/Kanghongsheng/Computer-Vision/raw/modified_version/Feature_Detection/Pictures/Matching_performance.jpg)
 
 From the picture above, we can conclude that:
@@ -143,13 +143,40 @@ From the picture above, we can conclude that:
 2. SIFT **outperforms** SURF,which shows quantization effects at 45-degree angles due to its Harr-wavelet composition.
 3. ORB has the best performance with over 70% inliers.
 
-### test_2 with dataset_1
+### test_2(matching test vs. noise)
 **Conditions**
 * plot the inlier performance vs. noise
+* The noise levels are 0, 5, 10, 15, 20, 25
 
 **Results**
+
 The results is as follows:
+
 ![Matching behavior](https://github.com/Kanghongsheng/Computer-Vision/raw/modified_version/Feature_Detection/Pictures/Matching_behavior.jpg)
 
 * SIFT exhibits a steady drop of 10% with each additional noise increment of 5
 * ORB also drops, but at a much lower rate
+
+### test_3(inlier/outlier test)
+**Conditions**
+* datasets: 
+1. indoor set of high-textured magazines on a table
+2. outdoor scene
+* The datasets have **scale, viewpoint, and lighting changes**
+* The images in the first column are matched to those in the second.
+* The last column is the resulting warp of the first onto the second.
+* The test is performed in the following manner:
+1. Pick a reference view V0
+2. For all Vi, find a homographic warp Hi0 that maps Vi to V0
+3. use the Hi0 as ground truth for descriptor matches from SIFT,SURF,and ORB
+
+**Results**
+The results is as follows:
+
+![Real_World_data](https://github.com/Kanghongsheng/Computer-Vision/raw/modified_version/Feature_Detection/Pictures/Real_World_data.jpg)
+
+![test3](https://github.com/Kanghongsheng/Computer-Vision/raw/modified_version/Feature_Detection/Pictures/test3.jpg)
+
+From the pictures above, we can conclude that:
+1. ORB **outperforms** SIFT and SURF on the outdoor dataset and the indoor set.
+2. Blob-detection keypoints like SIFT tend to be better on graffititype images.
