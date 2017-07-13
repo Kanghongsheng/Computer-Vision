@@ -44,7 +44,7 @@ where _Lxx_ is the convolution of the Gaussian second order derivative with the 
 * The **responses are weighted** by a Gaussian function centered at the point of interest, then represented as **vectors** in a two-dimensional space, with the horizontal response in the abscissa and the vertical response in the ordinate.
 * The **dominant orientation** is estimated by calculating the sum of all responses within a sliding orientation window of size π/3. The horizontal and vertical responses within the window are summed.
 * The size of the sliding window is a parameter that has to be chosen carefully to achieve a desired balance between **robustness and angular resolution**.
-* The longest such vector overall defines **the orientation of the point of interest**. 
+* The longest vector overall defines **the orientation of the point of interest**. 
 
 ### **Reference**
 > "Speeded up robust features" in wiki
@@ -76,7 +76,7 @@ Besides, we employ a **scale pryamid of the image** to produce FAST features(fil
 
 
 **Scalable Matching of Binary Features**
-* We choose **Locality Sensitive Hashing** as our nearest neighbor search
+* **Locality Sensitive Hashing** as our nearest neighbor search
 
 ## **SIFT**
 ---------
@@ -210,11 +210,13 @@ we can see that:
 
 **Results**
 * Computing ORB on a set of 2686 images at 5 scales, we can get the time cost is as follows: 
+
 |ORB:|Pyramid|oFAST|rBRIEF|
 |:-----:|:-----:|:-------:|:-------:|
 |Time(ms)|4.43|8.68|2.12|
 
 * Compared to SIFT and SURF on the same data for the same number of features and the same number of scales,we get:
+
 |Detector|ORB|SURF|SIFT|
 |:------:|:------:|:------:|:-----:|
 |Time per frame(ms)|15.3|217.3|5228.7|
