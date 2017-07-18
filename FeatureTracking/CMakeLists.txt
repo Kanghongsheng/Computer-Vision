@@ -1,0 +1,7 @@
+cmake_minimum_required(VERSION 2.8)
+set(CMAKE_CXX_FLAGS "-std=c++11")
+project(FeatureTracking)
+find_package(OpenCV 3.2 REQUIRED)
+include(${OpenCV_INCLUDE_DIRS})
+add_executable(FeatureTracking featureTracking.cpp)
+target_link_libraries(FeatureTracking ${OpenCV_LIBS})
